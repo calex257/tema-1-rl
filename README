@@ -1,0 +1,40 @@
+1 2 3
+
+Tema 1 RL - Calciu Alexandru
+
+Pentru primul punct am preluat pseudocodul din cerinta si l-am adaptat
+pentru a fi cod corect in python. Tabela MAC am reprezentat-o ca pe un dictionar
+cu adresa MAC ca cheie si interfata pe care trimit ca valoare. Pentru a diferentia
+intre adresa de broadcast si adrese unicast am comparat adresa destinatie
+cu "ff:ff:ff:ff:ff:ff"(adresa de broadcast). 
+
+Pentru al doilea subpunct am modificat codul scris pentru punctul anterior
+pentru a include suportul pentru VLAN. Inainte de a modifica logica pentru
+trimiterea pachetelor, am facut citirea si parsarea fisierelor de configurare.
+Am facut in asa fel incat fiecare switch sa isi citeasca propriul fisier
+de configurare si apoi am inceput sa parsez fisierul. Am convertit prima
+linie direct in int pentru a extrage prioritatea switch-ului, valoare pe care
+am folosit-o la cerinta 3. Apoi pentru fiecare linie care a urmat am luat continutul
+si am folosit un regex care sa imi extraga din format datele necesare. In 
+dictionarul care reprezinta corespondenta dintre interfata si tipul ei/VLAN-ul
+ei am stocat VLAN-ul ca numar, nu ca string, dupa ce am rezolvat un bug in
+care il aveam ca string si il comparam cu un numar. Pentru interfetele de
+tip trunk am stocat in dictionar string-ul 'T' extras din linie. Am urmat apoi
+cele 4 cazuri mentionate in cerinta cu atentie pentru a trimite pachetele
+corespunzator: trunk -> trunk, trunk -> access, access -> trunk si access -> access.
+Fiecare este marcat corespunzator in comentariile de pe cod din functiile
+aferente.
+
+Pentru a treia cerinta mi-am facut referinte globale la obiectele de care
+aveam nevoie din main, precum corespondentele interfata-vlan si lista interfetelor.
+Am facut acest lucru pentru ca mi s-a parut mai ok decat sa schimb structura
+existenta pe care o facusem deja si am incercat sa separ partea de STP de restul
+logicii pentru a nu strica ceva in mod accidental. Pentru a-mi forma pachetul
+BPDU am folosit un bytearray in care am concatenat fiecare valoare mentionata
+in cerinta convertita in bytes. Pentru campurile precum message_age si max_age
+sau in general cele care nu aveau relevanta pentru rezolvarea cerintei, am folosit
+valorile din acea captura de ecran de wireshark din cerinta. Cand am testat
+manual pe wireshark nu au aparut acele valori dar mi-am zis ca nu are rost
+sa investighez de ce se intampla asta din moment ce datele acelea nu influenteaza
+functionarea corecta a programului. In rest logica este exact cea din pseudocodul
+din cerinta, fara vreo modificare semnificativa. 
